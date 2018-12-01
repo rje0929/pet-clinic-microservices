@@ -1,14 +1,13 @@
 package com.rje.petclinic.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -29,13 +28,10 @@ public class Pet {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
+    @JsonIgnore
     private Owner owner;
 
     @Column(name = "birth_date")
     private LocalDate birthDate;
-
-//    @OneToMany(cascade = CascadeType.ALL,
-//            mappedBy = "pet")
-//    private Set<Visit> visits = new HashSet<>();
 
 }
