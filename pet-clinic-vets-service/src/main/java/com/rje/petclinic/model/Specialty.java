@@ -11,21 +11,16 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Builder
-@Table(name = "types")
-public class PetType implements Serializable {
+@Entity
+@Table(name = "specialties")
+public class Specialty implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
-
-    @Override
-    public String toString() {
-        return name;
-    }
+    @Column(name = "description")
+    private String description;
 
 }

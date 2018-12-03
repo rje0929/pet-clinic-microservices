@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 @Entity
 @Builder
 @Table(name = "pets")
-public class Pet {
+public class Pet implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

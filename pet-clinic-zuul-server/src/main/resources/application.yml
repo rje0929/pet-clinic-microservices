@@ -1,0 +1,9 @@
+server:
+  port: 8765
+spring:
+  application:
+    name: zuul-server
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true

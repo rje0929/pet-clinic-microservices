@@ -3,6 +3,7 @@ package com.rje.petclinic.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import java.util.Set;
 @Entity
 @Builder
 @Table(name = "owners")
-public class Owner {
+public class Owner implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

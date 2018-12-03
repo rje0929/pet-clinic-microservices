@@ -7,25 +7,27 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Builder
-@Table(name = "types")
-public class PetType implements Serializable {
+@Entity
+@Table(name = "visits")
+public class Visit implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "visit_date")
+    private LocalDate visitDate;
 
-    @Override
-    public String toString() {
-        return name;
-    }
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "pet_id")
+    private Long petId;
 
 }

@@ -1,0 +1,21 @@
+server:
+  port: 8772
+spring:
+  application:
+    name: visits-service
+  cloud:
+    config:
+      enabled: true
+  h2:
+    console:
+      enabled: true
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
