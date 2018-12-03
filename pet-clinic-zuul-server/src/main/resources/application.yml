@@ -3,7 +3,3 @@ server:
 spring:
   application:
     name: zuul-server
-eureka:
-  client:
-    registerWithEureka: true
-    fetchRegistry: true

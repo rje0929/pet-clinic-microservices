@@ -6,16 +6,3 @@ spring:
   cloud:
     config:
       enabled: true
-  h2:
-    console:
-      enabled: true
-  jpa:
-    properties:
-      hibernate:
-        show_sql: true
-        use_sql_comments: true
-        format_sql: true
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
