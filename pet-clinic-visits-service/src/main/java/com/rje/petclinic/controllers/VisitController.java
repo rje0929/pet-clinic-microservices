@@ -17,21 +17,22 @@ public class VisitController {
 
     @PostMapping("owners/*/pets/{petId}/visits")
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody Visit visit,
-                       @PathVariable("petId") Long petId) {
+    public Visit createVisit(@RequestBody Visit visit,
+                             @PathVariable("petId") Long petId) {
         visit.setPetId(petId);
-        visitRepository.save(visit);
+        Visit savedVisit = visitRepository.save(visit);
+        return savedVisit;
     }
 
     @GetMapping("owners/*/pets/{petId}/visits")
-    public List<Visit> visits(@PathVariable("petId") Long petId) {
+    public List<Visit> findVisitsByPetId(@PathVariable("petId") Long petId) {
         List<Visit> visitsList = new ArrayList<>();
         visitRepository.findByPetId(petId).forEach(visitsList::add);
         return visitsList;
     }
 
     @GetMapping("pets/visits")
-    public List<Visit> visitsByPetIds(@RequestParam("petId") List<Integer> petIds) {
+    public List<Visit> findVisitsByPetIds(@RequestParam("petId") List<Long> petIds) {
         List<Visit> visitsList = new ArrayList<>();
         visitRepository.findByPetIdIn(petIds).forEach(visitsList::add);
         return visitsList;

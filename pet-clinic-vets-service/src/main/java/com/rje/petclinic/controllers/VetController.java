@@ -18,7 +18,7 @@ public class VetController {
     private VetRepository vetRepository;
 
     @GetMapping("")
-    public List<Vet> showVetList() {
+    public List<Vet> findAllVets() {
         List<Vet> vetsList = new ArrayList<>();
         vetRepository.findAll().forEach(vetsList::add);
         return vetsList;

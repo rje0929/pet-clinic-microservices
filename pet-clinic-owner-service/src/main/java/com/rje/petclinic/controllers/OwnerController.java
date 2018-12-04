@@ -18,8 +18,9 @@ public class OwnerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createOwner(@RequestBody Owner owner) {
-        ownerRepository.save(owner);
+    public Owner createOwner(@RequestBody Owner owner) {
+        Owner savedOwner = ownerRepository.save(owner);
+        return savedOwner;
     }
 
     @GetMapping("/{ownerId}")
@@ -28,7 +29,7 @@ public class OwnerController {
     }
 
     @GetMapping
-    public List<Owner> findAll() {
+    public List<Owner> findAllOwners() {
         List<Owner> owners = new ArrayList<>();
         ownerRepository.findAll().forEach(owners::add);
         return owners;

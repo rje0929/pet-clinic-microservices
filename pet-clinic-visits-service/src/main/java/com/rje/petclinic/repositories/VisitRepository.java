@@ -9,6 +9,6 @@ public interface VisitRepository extends CrudRepository<Visit, Long> {
 
     List<Visit> findByPetId(Long petId);
 
-    List<Visit> findByPetIdIn(List<Integer> petIds);
+    List<Visit> findByPetIdIn(List<Long> petIds);
 
 }
