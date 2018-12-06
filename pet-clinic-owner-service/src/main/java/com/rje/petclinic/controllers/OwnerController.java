@@ -35,16 +35,16 @@ public class OwnerController {
         return owners;
     }
 
-    @PostMapping("/findByLastNameLike")
-    public List<Owner> findAllByLastNameLike(@RequestBody String givenName) {
+    @GetMapping("/findByLastNameLike/{name}")
+    public List<Owner> findAllByLastNameLike(@PathVariable("name") String name) {
         List<Owner> owners = new ArrayList<>();
-        ownerRepository.findAllByLastNameLike(givenName).forEach(owners::add);
+        ownerRepository.findAllByLastNameLike(name).forEach(owners::add);
         return owners;
     }
 
-    @PostMapping("/findByLastName")
-    public Owner findOwnerByLastName(@RequestBody String givenName) {
-        return ownerRepository.findByLastName(givenName);
+    @GetMapping("/findByLastName/{name}")
+    public Owner findOwnerByLastName(@PathVariable("name") String name) {
+        return ownerRepository.findByLastName(name);
     }
 
     @PutMapping(value = "/{ownerId}")
