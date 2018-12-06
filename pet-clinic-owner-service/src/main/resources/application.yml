@@ -6,3 +6,6 @@ spring:
   cloud:
     config:
       enabled: true
+ribbon:
+  eureka:
+    enabled: true

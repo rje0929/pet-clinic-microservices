@@ -3,3 +3,9 @@ server:
 spring:
   application:
     name: zuul-server
+zuul:
+  prefix: /api
+  routes:
+    account:
+      path: /owner/**
+      serviceId: owner-service

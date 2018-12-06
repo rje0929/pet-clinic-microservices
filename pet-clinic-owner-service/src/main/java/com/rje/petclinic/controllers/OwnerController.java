@@ -35,6 +35,18 @@ public class OwnerController {
         return owners;
     }
 
+    @PostMapping("/findByLastNameLike")
+    public List<Owner> findAllByLastNameLike(@RequestBody String givenName) {
+        List<Owner> owners = new ArrayList<>();
+        ownerRepository.findAllByLastNameLike(givenName).forEach(owners::add);
+        return owners;
+    }
+
+    @PostMapping("/findByLastName")
+    public Owner findOwnerByLastName(@RequestBody String givenName) {
+        return ownerRepository.findByLastName(givenName);
+    }
+
     @PutMapping(value = "/{ownerId}")
     public Owner updateOwner(@PathVariable("ownerId") Long ownerId, @RequestBody Owner owner) {
         Owner savedOwner = ownerRepository.save(owner);
