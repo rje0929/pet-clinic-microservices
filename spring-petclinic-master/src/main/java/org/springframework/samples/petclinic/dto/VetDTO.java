@@ -1,10 +1,12 @@
 package org.springframework.samples.petclinic.dto;
 
 import lombok.Data;
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PropertyComparator;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Data
 public class VetDTO implements Serializable {
@@ -38,11 +40,34 @@ public class VetDTO implements Serializable {
         this.lastName = lastName;
     }
 
-    public Set<SpecialtyDTO> getSpecialties() {
-        return specialties;
-    }
-
     public void setSpecialties(Set<SpecialtyDTO> specialties) {
         this.specialties = specialties;
+    }
+
+    protected Set<SpecialtyDTO> getSpecialtiesInternal() {
+        if (this.specialties == null) {
+            this.specialties = new HashSet<>();
+        }
+        return this.specialties;
+    }
+
+    protected void setSpecialtiesInternal(Set<SpecialtyDTO> specialties) {
+        this.specialties = specialties;
+    }
+
+    @XmlElement
+    public List<SpecialtyDTO> getSpecialties() {
+        List<SpecialtyDTO> sortedSpecs = new ArrayList<>(getSpecialtiesInternal());
+        PropertyComparator.sort(sortedSpecs,
+            new MutableSortDefinition("name", true, true));
+        return Collections.unmodifiableList(sortedSpecs);
+    }
+
+    public int getNrOfSpecialties() {
+        return getSpecialtiesInternal().size();
+    }
+
+    public void addSpecialty(SpecialtyDTO specialty) {
+        getSpecialtiesInternal().add(specialty);
     }
 }

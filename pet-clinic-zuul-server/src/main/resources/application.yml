@@ -6,6 +6,9 @@ spring:
 zuul:
   prefix: /api
   routes:
-    account:
+    owner:
       path: /owner/**
       serviceId: owner-service
+    vet:
+      path: /vets/**
+      serviceId: vets-service
