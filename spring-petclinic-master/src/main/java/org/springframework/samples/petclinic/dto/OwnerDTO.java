@@ -1,9 +1,13 @@
 package org.springframework.samples.petclinic.dto;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import lombok.Data;
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PropertyComparator;
 
+import java.io.Serializable;
+import java.util.*;
+
+@Data
 public class OwnerDTO implements Serializable {
 
     private Long id;
@@ -14,63 +18,47 @@ public class OwnerDTO implements Serializable {
     private String telephone;
     private Set<PetDTO> pets = new HashSet<>();
 
+    protected Set<PetDTO> getPetsInternal() {
+        if (this.pets == null) {
+            this.pets = new HashSet<>();
+        }
+        return this.pets;
+    }
+
+    protected void setPetsInternal(Set<PetDTO> pets) {
+        this.pets = pets;
+    }
+
+    public List<PetDTO> getPets() {
+        List<PetDTO> sortedPets = new ArrayList<>(getPetsInternal());
+        PropertyComparator.sort(sortedPets,
+            new MutableSortDefinition("name", true, true));
+        return Collections.unmodifiableList(sortedPets);
+    }
+
+    public void addPet(PetDTO pet) {
+        if (pet.isNew()) {
+            getPetsInternal().add(pet);
+        }
+        pet.setOwner(this);
+    }
+
+    public PetDTO getPet(String name, boolean ignoreNew) {
+        name = name.toLowerCase();
+        for (PetDTO pet : getPetsInternal()) {
+            if (!ignoreNew || !pet.isNew()) {
+                String compName = pet.getName();
+                compName = compName.toLowerCase();
+                if (compName.equals(name)) {
+                    return pet;
+                }
+            }
+        }
+        return null;
+    }
+
     public boolean isNew() {
         return this.id == null;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public Set<PetDTO> getPets() {
-        return pets;
-    }
-
-    public void setPets(Set<PetDTO> pets) {
-        this.pets = pets;
-    }
 }

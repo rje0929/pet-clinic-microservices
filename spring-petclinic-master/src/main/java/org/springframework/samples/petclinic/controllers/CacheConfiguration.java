@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.system;
+package org.springframework.samples.petclinic.controllers;
 
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
 import org.springframework.cache.annotation.EnableCaching;

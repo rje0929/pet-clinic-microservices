@@ -1,44 +1,48 @@
 package org.springframework.samples.petclinic.dto;
 
+import lombok.Data;
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PropertyComparator;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.*;
 
+@Data
 public class VisitDTO implements Serializable {
 
     private Long id;
-    private LocalDate date;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate visitDate;
     private String description;
     private Long petId;
+    private Set<VisitDTO> visits = new LinkedHashSet<>();
 
-    public Long getId() {
-        return id;
+    public boolean isNew() {
+        return this.id == null;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    protected Set<VisitDTO> getVisitsInternal() {
+        if (this.visits == null) {
+            this.visits = new HashSet<>();
+        }
+        return this.visits;
     }
 
-    public LocalDate getDate() {
-        return date;
+    protected void setVisitsInternal(Set<VisitDTO> visits) {
+        this.visits = visits;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public List<VisitDTO> getVisits() {
+        List<VisitDTO> sortedVisits = new ArrayList<>(getVisitsInternal());
+        PropertyComparator.sort(sortedVisits,
+            new MutableSortDefinition("date", false, false));
+        return Collections.unmodifiableList(sortedVisits);
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Long getPetId() {
-        return petId;
-    }
-
-    public void setPetId(Long petId) {
-        this.petId = petId;
+    public void addVisit(VisitDTO visit) {
+        getVisitsInternal().add(visit);
+        visit.setPetId(this.getId());
     }
 }

@@ -1,22 +1,9 @@
-/*
- * Copyright 2012-2018 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package org.springframework.samples.petclinic.owner;
+package org.springframework.samples.petclinic.controllers;
 
 import org.springframework.samples.petclinic.clients.OwnerClient;
+import org.springframework.samples.petclinic.clients.VisitClient;
 import org.springframework.samples.petclinic.dto.OwnerDTO;
+import org.springframework.samples.petclinic.dto.VisitDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,25 +15,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-/**
- * @author Juergen Hoeller
- * @author Ken Krebs
- * @author Arjen Poutsma
- * @author Michael Isvy
- */
 @Controller
 class OwnerController {
 
     private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
     private final OwnerClient ownerClient;
+    private final VisitClient visitClient;
 
-
-    public OwnerController(OwnerClient ownerClient) {
+    public OwnerController(OwnerClient ownerClient, VisitClient visitClient) {
         this.ownerClient = ownerClient;
+        this.visitClient = visitClient;
     }
 
     @InitBinder
@@ -56,7 +36,7 @@ class OwnerController {
 
     @GetMapping("/owners/new")
     public String initCreationForm(Map<String, Object> model) {
-        Owner owner = new Owner();
+        OwnerDTO owner = new OwnerDTO();
         model.put("owner", owner);
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
     }
@@ -73,12 +53,12 @@ class OwnerController {
 
     @GetMapping("/owners/find")
     public String initFindForm(Map<String, Object> model) {
-        model.put("owner", new Owner());
+        model.put("owner", new OwnerDTO());
         return "owners/findOwners";
     }
 
     @GetMapping("/owners")
-    public String processFindForm(Owner owner, BindingResult result, Map<String, Object> model) {
+    public String processFindForm(OwnerDTO owner, BindingResult result, Map<String, Object> model) {
         System.out.println("Processing find form...");
         // allow parameterless GET request for /owners to return all records
         if (owner.getLastName() == null) {
@@ -103,8 +83,8 @@ class OwnerController {
     }
 
     @GetMapping("/owners/{ownerId}/edit")
-    public String initUpdateOwnerForm(@PathVariable("ownerId") int ownerId, Model model) {
-        model.addAttribute("owner", ownerClient.findOwner((long) ownerId));
+    public String initUpdateOwnerForm(@PathVariable("ownerId") Long ownerId, Model model) {
+        model.addAttribute("owner", ownerClient.findOwner(ownerId));
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
     }
 
@@ -119,16 +99,16 @@ class OwnerController {
         }
     }
 
-    /**
-     * Custom handler for displaying an owner.
-     *
-     * @param ownerId the ID of the owner to display
-     * @return a ModelMap with the model attributes for the view
-     */
     @GetMapping("/owners/{ownerId}")
-    public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
+    public ModelAndView showOwner(@PathVariable("ownerId") Long ownerId) {
         ModelAndView mav = new ModelAndView("owners/ownerDetails");
-        mav.addObject("owner", ownerClient.findOwner((long) ownerId));
+        OwnerDTO owner = ownerClient.findOwner(ownerId);
+        owner.getPets().forEach(pet -> {
+            Set<VisitDTO> visits = new HashSet<>();
+            visitClient.findVisitsByPetId(pet.getId()).forEach(visits::add);
+            pet.setVisits(visits);
+        });
+        mav.addObject("owner", owner);
         return mav;
     }
 
