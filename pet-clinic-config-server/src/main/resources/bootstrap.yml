@@ -6,3 +6,5 @@ spring:
       server:
         git:
           uri: https://github.com/rje0929/ConfigData
+  application:
+    name: pet-clinic-config-server

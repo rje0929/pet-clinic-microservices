@@ -1,0 +1,71 @@
+version: '3.4'
+services:
+  pet-clinic-config-server:
+    image: pet-clinic-config-server
+    ports:
+      - "8888:8888"
+  pet-clinic-eureka-server:
+    image: pet-clinic-eureka-server
+    ports:
+      - "8761:8761"
+  pet-clinic-zuul-server:
+    image: pet-clinic-zuul-server
+    ports:
+      - "8765:8765"
+    environment:
+      - EUREKA_SERVER=pet-clinic-eureka-server
+      - FAIL_FAST=true
+      - CONFIG_SERVER=pet-clinic-config-server
+    links:
+      - pet-clinic-eureka-server
+  pet-clinic-owner-service:
+    image: pet-clinic-owner-service
+    ports:
+      - "8771:8771"
+    environment:
+      - EUREKA_SERVER=pet-clinic-eureka-server
+      - FAIL_FAST=true
+      - CONFIG_SERVER=pet-clinic-config-server
+    links:
+      - pet-clinic-eureka-server
+      - pet-clinic-config-server
+      - pet-clinic-zuul-server
+  pet-clinic-vets-service:
+    image: pet-clinic-vets-service
+    ports:
+      - "8770:8770"
+    environment:
+      - EUREKA_SERVER=pet-clinic-eureka-server
+      - FAIL_FAST=true
+      - CONFIG_SERVER=pet-clinic-config-server
+    links:
+      - pet-clinic-eureka-server
+      - pet-clinic-config-server
+      - pet-clinic-zuul-server
+  pet-clinic-visits-service:
+    image: pet-clinic-visits-service
+    ports:
+      - "8772:8772"
+    environment:
+      - EUREKA_SERVER=pet-clinic-eureka-server
+      - FAIL_FAST=true
+      - CONFIG_SERVER=pet-clinic-config-server
+    links:
+      - pet-clinic-eureka-server
+      - pet-clinic-config-server
+      - pet-clinic-zuul-server
+  spring-petclinic:
+    image: spring-petclinic
+    ports:
+      - "8080:8080"
+    environment:
+      - EUREKA_SERVER=pet-clinic-eureka-server
+      - FAIL_FAST=true
+      - CONFIG_SERVER=pet-clinic-config-server
+    links:
+      - pet-clinic-eureka-server
+      - pet-clinic-config-server
+      - pet-clinic-zuul-server
+      - pet-clinic-owner-service
+      - pet-clinic-vets-service
+      - pet-clinic-visits-service

@@ -1,8 +1,0 @@
-server:
-  port: 8770
-spring:
-  application:
-    name: vets-service
-  cloud:
-    config:
-      enabled: true

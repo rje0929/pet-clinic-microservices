@@ -1,8 +1,0 @@
-server:
-  port: 8772
-spring:
-  application:
-    name: visits-service
-  cloud:
-    config:
-      enabled: true
