@@ -54,8 +54,8 @@ services:
       - pet-clinic-eureka-server
       - pet-clinic-config-server
       - pet-clinic-zuul-server
-  spring-petclinic:
-    image: spring-petclinic
+  pet-clinic-web-interface:
+    image: pet-clinic-web-interface
     ports:
       - "8080:8080"
     environment:

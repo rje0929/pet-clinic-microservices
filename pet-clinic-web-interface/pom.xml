@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.springframework.samples</groupId>
-    <artifactId>spring-petclinic</artifactId>
+    <groupId>com.rje</groupId>
+    <artifactId>pet-clinic-web-interface</artifactId>
     <version>2.1.0.BUILD-SNAPSHOT</version>
 
     <parent>
@@ -14,7 +14,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <name>petclinic</name>
+    <name>pet-clinic-web-interface</name>
 
     <properties>
 
@@ -260,10 +260,7 @@
                 <configuration>
                     <imageName>${project.artifactId}</imageName>
                     <baseImage>java:8</baseImage>
-                    <entryPoint>["java", "-jar", "/${project.build.finalName}.jar", "-Xdebug
-                        -Xrunjdwp:server=y,transport=dt_socket,suspend=n"]
-                    </entryPoint>
-                    <!-- copy the service's jar file from target into the root directory of the image -->
+                    <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
