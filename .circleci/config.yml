@@ -38,6 +38,7 @@ jobs:
       - run: mvn -file pet-clinic-vets-service/pom.xml clean install -DskipTests
       - run: mvn -file pet-clinic-visits-service/pom.xml clean install -DskipTests
       - run: mvn -file pet-clinic-web-interface/pom.xml clean install -DskipTests
+      - run: docker-compose up -d
 
       - save_cache:
           paths:

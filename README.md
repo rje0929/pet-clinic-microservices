@@ -1,4 +1,5 @@
 # Spring PetClinic Microservices Project
+[![CircleCI](https://circleci.com/gh/rje0929/pet-clinic-microservices.svg?style=svg)](https://circleci.com/gh/rje0929/pet-clinic-microservices)
 
 This is my Microservices implementation of the famous Spring PetClinic Project.
 
