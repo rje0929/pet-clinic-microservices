@@ -25,6 +25,12 @@ First, you'll need to pull down the project:
 git clone https://github.com/rje0929/pet-clinic-microservices
 ```
 
+You also need:
+
+* Java 8
+* Maven installed
+* Docker installed
+
 If you don't want to use Docker, you'll have to start each one of the services manually.  I'd recommend starting them in them in this order:
 
 * Config Service
