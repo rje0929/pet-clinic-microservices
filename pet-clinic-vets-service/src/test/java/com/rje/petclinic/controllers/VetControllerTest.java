@@ -12,24 +12,24 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class VetControllerTest {
 
     @Mock
-    public VetRepository vetRepository;
+    private VetRepository vetRepository;
 
     @InjectMocks
-    public VetController vetController;
+    private VetController vetController;
 
-    public List<Vet> vetList;
+    private List<Vet> vetList;
 
-    public Vet vet1;
-    public Vet vet2;
-    public Vet vet3;
+    private Vet vet1;
+    private Vet vet2;
+    private Vet vet3;
 
     @BeforeEach
     void setUp() {
@@ -51,6 +51,6 @@ class VetControllerTest {
         List<Vet> vets = vetController.findAllVets();
 
         assertNotNull(vets);
-        assertTrue(vets.size() == 3);
+        assertEquals(3, vets.size());
     }
 }

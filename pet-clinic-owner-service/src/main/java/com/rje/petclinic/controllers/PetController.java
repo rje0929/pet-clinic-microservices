@@ -30,7 +30,7 @@ public class PetController {
 
     @GetMapping("/{petId}")
     public Pet findPetById(@PathVariable("petId") Long petId) {
-        return petRepository.findById(petId).get();
+        return petRepository.findById(petId).orElseThrow(() -> new RuntimeException("pet with id=" + petId + " not found"));
     }
 
 }

@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -30,19 +30,19 @@ class VisitControllerTest {
     @InjectMocks
     private VisitController visitController;
 
-    public List<Visit> visitList;
+    private List<Visit> visitList;
 
-    public Visit visit1;
-    public Visit visit2;
-    public Visit visit3;
+    private Visit visit1;
+    private Visit visit2;
+    private Visit visit3;
 
     @BeforeEach
     void setUp() {
         visitList = new ArrayList<>();
 
-        visit1 = Visit.builder().id(1l).description("Hair cut").visitDate(LocalDate.of(2018, 5, 10)).petId(3l).build();
-        visit2 = Visit.builder().id(2l).description("Checkup").visitDate(LocalDate.of(2018, 3, 20)).petId(2l).build();
-        visit3 = Visit.builder().id(3l).description("Beard wax").visitDate(LocalDate.of(2018, 12, 1)).petId(1l).build();
+        visit1 = Visit.builder().id(1L).description("Hair cut").visitDate(LocalDate.of(2018, 5, 10)).petId(3L).build();
+        visit2 = Visit.builder().id(2L).description("Checkup").visitDate(LocalDate.of(2018, 3, 20)).petId(2L).build();
+        visit3 = Visit.builder().id(3L).description("Beard wax").visitDate(LocalDate.of(2018, 12, 1)).petId(1L).build();
 
         visitList.add(visit1);
         visitList.add(visit2);
@@ -51,31 +51,31 @@ class VisitControllerTest {
 
     @Test
     void createVisit() {
-        when(visitRepository.save(ArgumentMatchers.any())).thenReturn(Visit.builder().id(25l).build());
+        when(visitRepository.save(ArgumentMatchers.any())).thenReturn(Visit.builder().id(25L).build());
 
-        Visit savedVisit = visitController.createVisit(visit1, 4l);
+        Visit savedVisit = visitController.createVisit(visit1, 4L);
 
         assertNotNull(savedVisit);
-        assertTrue(savedVisit.getId() == 25l);
+        assertEquals(25L, (long) savedVisit.getId());
     }
 
     @Test
     void findVisitsByPetId() {
         when(visitRepository.findByPetId(anyLong())).thenReturn(visitList);
 
-        List<Visit> visits = visitController.findVisitsByPetId(5l);
+        List<Visit> visits = visitController.findVisitsByPetId(5L);
 
         assertNotNull(visits);
-        assertTrue(visits.size() == 3);
+        assertEquals(3, visits.size());
     }
 
     @Test
     void findVisitsByPetIds() {
         when(visitRepository.findByPetIdIn(anyList())).thenReturn(visitList);
 
-        List<Visit> visits = visitController.findVisitsByPetIds(Arrays.asList(1l, 2l, 3l));
+        List<Visit> visits = visitController.findVisitsByPetIds(Arrays.asList(1L, 2L, 3L));
 
         assertNotNull(visits);
-        assertTrue(visits.size() == 3);
+        assertEquals(3, visits.size());
     }
 }

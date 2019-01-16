@@ -22,7 +22,7 @@ public class PetDTO implements Serializable {
     @JsonIgnore
     private OwnerDTO owner;
 
-    protected Set<VisitDTO> getVisitsInternal() {
+    private Set<VisitDTO> getVisitsInternal() {
         if (this.visits == null) {
             this.visits = new HashSet<>();
         }

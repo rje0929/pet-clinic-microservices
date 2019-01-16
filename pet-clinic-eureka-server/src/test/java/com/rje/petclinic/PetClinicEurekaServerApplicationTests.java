@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class PetClinicEurekaServerApplicationTests {
 
+    @SuppressWarnings("EmptyMethod")
     @Test
     public void contextLoads() {
     }

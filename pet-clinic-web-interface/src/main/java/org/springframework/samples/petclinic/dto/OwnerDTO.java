@@ -18,7 +18,7 @@ public class OwnerDTO implements Serializable {
     private String telephone;
     private Set<PetDTO> pets = new HashSet<>();
 
-    protected Set<PetDTO> getPetsInternal() {
+    private Set<PetDTO> getPetsInternal() {
         if (this.pets == null) {
             this.pets = new HashSet<>();
         }

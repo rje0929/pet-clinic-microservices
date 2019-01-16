@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.formatters;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
+import org.springframework.lang.NonNull;
 import org.springframework.samples.petclinic.clients.OwnerClient;
 import org.springframework.samples.petclinic.dto.PetTypeDTO;
 import org.springframework.stereotype.Component;
@@ -14,8 +15,7 @@ import java.util.Locale;
 @Component
 public class PetTypeFormatter implements Formatter<PetTypeDTO> {
 
-    private OwnerClient ownerClient;
-
+    private final OwnerClient ownerClient;
 
     @Autowired
     public PetTypeFormatter(OwnerClient ownerClient) {
@@ -23,12 +23,14 @@ public class PetTypeFormatter implements Formatter<PetTypeDTO> {
     }
 
     @Override
-    public String print(PetTypeDTO petType, Locale locale) {
+    @NonNull
+    public String print(@NonNull PetTypeDTO petType, @NonNull Locale locale) {
         return petType.getName();
     }
 
     @Override
-    public PetTypeDTO parse(String text, Locale locale) throws ParseException {
+    @NonNull
+    public PetTypeDTO parse(@NonNull String text, @NonNull Locale locale) throws ParseException {
         Collection<PetTypeDTO> findPetTypes = ownerClient.findPetTypes();
         for (PetTypeDTO type : findPetTypes) {
             if (type.getName().equals(text)) {

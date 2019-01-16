@@ -20,22 +20,17 @@ public class VisitController {
     public Visit createVisit(@RequestBody Visit visit,
                              @PathVariable("petId") Long petId) {
         visit.setPetId(petId);
-        Visit savedVisit = visitRepository.save(visit);
-        return savedVisit;
+        return visitRepository.save(visit);
     }
 
     @GetMapping("owners/*/pets/{petId}/visits")
     public List<Visit> findVisitsByPetId(@PathVariable("petId") Long petId) {
-        List<Visit> visitsList = new ArrayList<>();
-        visitRepository.findByPetId(petId).forEach(visitsList::add);
-        return visitsList;
+        return new ArrayList<>(visitRepository.findByPetId(petId));
     }
 
     @GetMapping("pets/visits")
     public List<Visit> findVisitsByPetIds(@RequestParam("petId") List<Long> petIds) {
-        List<Visit> visitsList = new ArrayList<>();
-        visitRepository.findByPetIdIn(petIds).forEach(visitsList::add);
-        return visitsList;
+        return new ArrayList<>(visitRepository.findByPetIdIn(petIds));
     }
 
 }

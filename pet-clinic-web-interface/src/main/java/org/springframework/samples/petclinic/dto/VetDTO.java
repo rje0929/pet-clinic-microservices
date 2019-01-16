@@ -16,7 +16,7 @@ public class VetDTO implements Serializable {
     private String lastName;
     private Set<SpecialtyDTO> specialties = new HashSet<>();
 
-    protected Set<SpecialtyDTO> getSpecialtiesInternal() {
+    private Set<SpecialtyDTO> getSpecialtiesInternal() {
         if (this.specialties == null) {
             this.specialties = new HashSet<>();
         }

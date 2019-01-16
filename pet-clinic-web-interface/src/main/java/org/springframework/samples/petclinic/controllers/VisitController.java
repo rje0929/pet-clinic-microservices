@@ -11,9 +11,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 class VisitController {
@@ -42,7 +42,7 @@ class VisitController {
         if (visits.size() == 0) {
             pet.addVisit(visit);
         } else {
-            pet.setVisits(visits.stream().collect(Collectors.toSet()));
+            pet.setVisits(new HashSet<>(visits));
         }
 
         model.put("pet", pet);

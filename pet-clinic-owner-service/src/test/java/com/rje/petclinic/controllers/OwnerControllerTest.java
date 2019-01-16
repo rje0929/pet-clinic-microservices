@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -23,24 +22,24 @@ import static org.mockito.Mockito.when;
 class OwnerControllerTest {
 
     @Mock
-    public OwnerRepository ownerRepository;
+    private OwnerRepository ownerRepository;
 
     @InjectMocks
-    public OwnerController ownerController;
+    private OwnerController ownerController;
 
-    public List<Owner> ownerList;
+    private List<Owner> ownerList;
 
-    public Owner owner1;
-    public Owner owner2;
-    public Owner owner3;
+    private Owner owner1;
+    private Owner owner2;
+    private Owner owner3;
 
     @BeforeEach
     void setUp() {
         ownerList = new ArrayList<>();
 
-        owner1 = Owner.builder().id(1l).firstName("Randy").lastName("Moss").build();
-        owner2 = Owner.builder().id(2l).firstName("Chris").lastName("Carter").build();
-        owner3 = Owner.builder().id(3l).firstName("John").lastName("Randle").build();
+        owner1 = Owner.builder().id(1L).firstName("Randy").lastName("Moss").build();
+        owner2 = Owner.builder().id(2L).firstName("Chris").lastName("Carter").build();
+        owner3 = Owner.builder().id(3L).firstName("John").lastName("Randle").build();
 
         ownerList.add(owner1);
         ownerList.add(owner2);
@@ -54,7 +53,7 @@ class OwnerControllerTest {
         Owner savedOwner = ownerController.createOwner(owner1);
 
         assertNotNull(savedOwner);
-        assertTrue(savedOwner.getId().equals(14L));
+        assertEquals(14L, (long) savedOwner.getId());
     }
 
     @Test
@@ -75,16 +74,16 @@ class OwnerControllerTest {
         List<Owner> owners = ownerController.findAllOwners();
 
         assertNotNull(owners);
-        assertTrue(owners.size() == 3);
+        assertEquals(3, owners.size());
     }
 
     @Test
     void updateOwner() {
-        when(ownerRepository.save(ArgumentMatchers.any())).thenReturn(Owner.builder().id(35l).build());
+        when(ownerRepository.save(ArgumentMatchers.any())).thenReturn(Owner.builder().id(35L).build());
 
         Owner savedOwner = ownerController.updateOwner(35L, owner1);
 
         assertNotNull(savedOwner);
-        assertTrue(savedOwner.getId() == 35);
+        assertEquals(35, (long) savedOwner.getId());
     }
 }

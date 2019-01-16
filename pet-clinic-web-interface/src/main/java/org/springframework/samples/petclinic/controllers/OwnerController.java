@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.controllers;
 import org.springframework.samples.petclinic.clients.OwnerClient;
 import org.springframework.samples.petclinic.clients.VisitClient;
 import org.springframework.samples.petclinic.dto.OwnerDTO;
-import org.springframework.samples.petclinic.dto.VisitDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 class OwnerController {
@@ -66,14 +67,14 @@ class OwnerController {
         }
 
         // find owners by last name
-        Collection<OwnerDTO> results = ownerClient.findByLastNameLike("%" + owner.getLastName() + "%");
+        List<OwnerDTO> results = ownerClient.findByLastNameLike("%" + owner.getLastName() + "%");
         if (results.isEmpty()) {
             // no owners found
             result.rejectValue("lastName", "notFound", "not found");
             return "owners/findOwners";
         } else if (results.size() == 1) {
             // 1 owner found
-            OwnerDTO ownerDTO = ((List<OwnerDTO>) results).get(0);
+            OwnerDTO ownerDTO = results.get(0);
             return "redirect:/owners/" + ownerDTO.getId();
         } else {
             // multiple owners found
@@ -104,9 +105,7 @@ class OwnerController {
         ModelAndView mav = new ModelAndView("owners/ownerDetails");
         OwnerDTO owner = ownerClient.findOwner(ownerId);
         owner.getPets().forEach(pet -> {
-            Set<VisitDTO> visits = new HashSet<>();
-            visitClient.findVisitsByPetId(pet.getId()).forEach(visits::add);
-            pet.setVisits(visits);
+            pet.setVisits(new HashSet<>(visitClient.findVisitsByPetId(pet.getId())));
         });
         mav.addObject("owner", owner);
         return mav;

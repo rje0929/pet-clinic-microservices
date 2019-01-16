@@ -23,7 +23,7 @@ public class VisitDTO implements Serializable {
         return this.id == null;
     }
 
-    protected Set<VisitDTO> getVisitsInternal() {
+    private Set<VisitDTO> getVisitsInternal() {
         if (this.visits == null) {
             this.visits = new HashSet<>();
         }

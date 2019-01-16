@@ -29,7 +29,7 @@ You also need:
 
 * Java 8
 * Maven installed
-* Docker installed
+* Docker installed - I recommend installing Docker for Mac or Docker for Windows using the download utilities from the [Docker website](https://www.docker.com/).  Using tools such as brew to install Docker may leave out some of the components needed such as docker-compose.
 
 If you don't want to use Docker, you'll have to start each one of the services manually.  I'd recommend starting them in them in this order:
 
