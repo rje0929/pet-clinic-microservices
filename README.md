@@ -42,7 +42,7 @@ If you don't want to use Docker, you'll have to start each one of the services m
 If you're using Docker, run the following commands:
 
 ```
-cd pet-clinic-microservice
+cd pet-clinic-microservices
 ./build_images.sh
 docker-compose up
 ```
