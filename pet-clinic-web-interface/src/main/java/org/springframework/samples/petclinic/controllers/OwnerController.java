@@ -7,10 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -59,8 +56,7 @@ class OwnerController {
     }
 
     @GetMapping("/owners")
-    public String processFindForm(OwnerDTO owner, BindingResult result, Map<String, Object> model) {
-        System.out.println("Processing find form...");
+    public String processFindForm(@Valid @ModelAttribute("owner") OwnerDTO owner, BindingResult result, Map<String, Object> model) {
         // allow parameterless GET request for /owners to return all records
         if (owner.getLastName() == null) {
             owner.setLastName(""); // empty string signifies broadest possible search
