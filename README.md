@@ -30,6 +30,7 @@ You also need:
 * Java 8
 * Maven installed
 * Docker installed - I recommend installing Docker for Mac or Docker for Windows using the download utilities from the [Docker website](https://www.docker.com/).  Using tools such as brew to install Docker may leave out some of the components needed such as docker-compose.
+* Change Memory setting in Docker - Because there are six Docker containers running, I had to set my Docker memory to 4 GB to avoid OutOfMemory issues.  The standard is 2 GB.  This can be changed in the Docker -> Preferences -> Advanced -> Memory section of the Docker app.  **_Don't forget to restart Docker after you make the changes!_**
 
 If you don't want to use Docker, you'll have to start each one of the services manually.  I'd recommend starting them in them in this order:
 
@@ -49,6 +50,4 @@ docker-compose up
 
 Once startup of all of the services is complete you can view the application at http://localhost:8080.  To view the list of services through Eureka, visit http://localhost:8761.
 
-The build images script may take several minutes to run.  The build script uses the -DskipTests flag for Maven.  The reason for this is that each service is looking for the Eureka service (that's not currently running) while they are building.  You may also see a few exceptions when the containers come up as they wait for the Eureka service and the Config service to start. To my knowledge, the docker-compose utility does not have a graceful way of starting containers in such a way that a container can wait for the successful start of dependent containers.  So I have made the services more resilient by adding the spring-retry module. 
-
-NOTE:  I had to set my Docker memory to 4 GB to avoid OutOfMemory issues.  The standard is 2 GB.  This can be changed in the Docker -> Preferences -> Advanced -> Memory section of the Docker app.  **_Don't forget to restart Docker after you make the changes!_**
+The build images script may take several minutes to run.  The build script uses the -DskipTests flag for Maven.  The reason for this is that each service is looking for the Eureka service (that's not currently running) while they are building.  You may also see a few exceptions when the containers come up as they wait for the Eureka service and the Config service to start. To my knowledge, the docker-compose utility does not have a graceful way of starting containers in such a way that a container can wait for the successful start of dependent containers.  So I have made the services more resilient by adding the spring-retry module.   
